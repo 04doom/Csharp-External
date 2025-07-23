@@ -91,7 +91,6 @@ namespace YourNameSpace
                 public string szExePath;
             }
 
-            // Leer memoria genérico
             public static T Read<T>(IntPtr handle, IntPtr address) where T : struct
             {
                 int size = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
