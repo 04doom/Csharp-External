@@ -10,18 +10,20 @@ namespace YourNameSpace
     {
         public class offsets
         {
-            public static readonly ulong FakeDataModelPointer = 0x6833728;
+            public static readonly ulong FakeDataModelPointer = 0x6E72138;
             public static readonly ulong FakeDataModelToDataModel = 0x1C0;
             public static readonly ulong LocalPlayer = 0x128;
-            public static readonly ulong ModelInstance = 0x340;
+            public static readonly ulong ModelInstance = 0x328;
             public static readonly ulong WalkSpeed = 0x1DC;
             public static readonly ulong JumpPower = 0x1B8;
             public static readonly ulong WalkSpeedCheck = 0x3B8;
-            public static readonly ulong Children = 0x80;
+            public static readonly ulong Children = 0x68;
             public static readonly ulong ChildrenEnd = 0x8;
-            public static readonly ulong Name = 0x78;
+            public static readonly ulong Name = 0x88;
             public static readonly ulong ClassDescriptor = 0x18;
             public static readonly ulong ClassDescriptorToName = 0x8;
+            public static readonly ulong Health = 0x19c;
+            public static readonly ulong MaxHealth = 0x1bc;
         }
 
         public class Mem
@@ -260,16 +262,19 @@ namespace YourNameSpace
 
             float ws = Mem.Read<float>(proc, (IntPtr)(humanoid + offsets.WalkSpeed));
             float jp = Mem.Read<float>(proc, (IntPtr)(humanoid + offsets.JumpPower));
-            Console.WriteLine($"Current WalkSpeed: {ws}, Current JumpPower: {jp}");
+            float h = Mem.Read<float>(proc, (IntPtr)(humanoid + offsets.Health));
+            Console.WriteLine($"Current WalkSpeed: {ws}, Current JumpPower: {jp}, Current Health: {h}");
 
-            Mem.Write(proc, (IntPtr)(humanoid + offsets.WalkSpeed), 200f);
-            Mem.Write(proc, (IntPtr)(humanoid + offsets.WalkSpeedCheck), 200f);
-            Mem.Write(proc, (IntPtr)(humanoid + offsets.JumpPower), 200f);
+            Mem.Write(proc, (IntPtr)(humanoid + offsets.WalkSpeed), 600f);
+            Mem.Write(proc, (IntPtr)(humanoid + offsets.WalkSpeedCheck), 600f);
+            Mem.Write(proc, (IntPtr)(humanoid + offsets.JumpPower), 600f);
+            Mem.Write(proc, (IntPtr)(humanoid + offsets.MaxHealth), 1f);
             System.Threading.Thread.Sleep(1200);
 
             ws = Mem.Read<float>(proc, (IntPtr)(humanoid + offsets.WalkSpeed));
             jp = Mem.Read<float>(proc, (IntPtr)(humanoid + offsets.JumpPower));
-            Console.WriteLine($"New WalkSpeed: {ws}, New JumpPower: {jp}");
+            h = Mem.Read<float>(proc, (IntPtr)(humanoid + offsets.MaxHealth));
+            Console.WriteLine($"New WalkSpeed: {ws}, New JumpPower: {jp}, New Health: {h}");
             Mem.CloseHandle(proc);
         }
 
